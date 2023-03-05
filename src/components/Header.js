@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
+import Logo from "../assets/img/foodvilla.png"
 const loggedInUser = () => {
   //API call to check authentication
   return true;
@@ -12,7 +13,7 @@ export const Title = () => (
     <img
       className="title"
       alt="logo"
-      src="http://lh3.googleusercontent.com/EbPS9tYwL3H8NkiYJPJbuRHmeIFVUYJs99IdfFT7ea6ZF9sw1Vhw9tiCFVCXqornHGKZyP8sy89up4G-yKqGzoLgPx8" />
+      src={Logo} />
   </a>
 )
 
@@ -24,24 +25,30 @@ const Header = () => {
       <div className="nav-items">
         <ul>
           <li>
-            Home
+            <Link to="/" >
+              Home
+            </Link>
           </li>
           <li>
-            About us
+            <Link to="/about" >
+              About us
+            </Link>
           </li>
           <li>
-            Contact us
+            <Link to="/contact" >
+              Contact us
+            </Link>
           </li>
           <li>
-            Cart
+            <Link to="/" >
+              Cart
+            </Link>
           </li>
         </ul>
       </div>
       {
         (isLoggedIn ? <button onClick={() => setIsLoggedIn(false)}>Logout</button> : <button onClick={() => setIsLoggedIn(true)} > Login</button>)
       }
-
-
     </div >
   )
 }

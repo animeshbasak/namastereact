@@ -2,6 +2,7 @@ import { restaurantList } from "../constants";
 import { RestaurantCard } from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 function filterData(searchText, restaurants) {
 
@@ -19,27 +20,28 @@ const Body = () => {
   // console.log(searchText)
   useEffect(() => {
     getRestaurants();
-
-    console.log('useEffect')
+    //takes call back function and dependency array
+    //empty array => called only once
+    //dependency array => each time dependency changes it renders data
+    // console.log('useEffect')
   }, []);
 
   async function getRestaurants() {
     const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.7040592&lng=77.10249019999999&page_type=DESKTOP_WEB_LISTING")
     if (data) {
       const json = await data.json()
-      console.log(json)
+      // console.log(json)
       setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
       setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
     }
     //optional chaining -> ?.
   }
-  console.log('render')
+  // console.log('render')
   //conditional rendering
   //not render component (Early Return)
   if (!allRestaurants) return null;
 
   return (allRestaurants?.length === 0) ? <Shimmer /> : filteredRestaurants?.length === 0 ? <h1>No Restaurant match your filter</h1> : (
-
     <>
       <div className="search-container">
         <input
@@ -64,7 +66,9 @@ const Body = () => {
         {/* Add condition here */}
         {filteredRestaurants.map(res => {
           return (
-            <RestaurantCard {...res.data} key={res.data.id} />
+            <Link to={"/restaurant/" + res.data.id} key={res.data.id}>
+              <RestaurantCard {...res.data} />
+            </Link>
           )
         })
         }
